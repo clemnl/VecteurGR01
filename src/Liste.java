@@ -13,13 +13,24 @@ public class Liste {
     public String toString() {
         String str = "[";
         for (Noeud courant = premier ; courant != null; courant = courant.prochain)
-            str +=  ", " +  courant;
+            str +=  courant.valeur + ", ";
         return str + "]";
     }
- /*
+
     public int getElementAt(int index) {
-        return tableau[index];
-    }*/
+        for (Noeud courant = premier ; courant != null; courant = courant.prochain)
+            if (index-- == 0)
+                return courant.valeur;
+        return -1;
+        /*Alternative :
+        Noeud courant = premier;
+        * for (int i = 0 ; i <= index ; i++)
+            if (courant != null)
+        *       courant = courant.prochain;
+            else
+                return -1;
+          return courant.valeur;*/
+    }
 
     public int getNbElements() {
         return nbElements;
@@ -28,24 +39,49 @@ public class Liste {
     public boolean estVide() {
         return nbElements == 0;
     }
-/*
+
     public void ajouter(int element) {
-        ajouter(element, nbElements);
+
+        if (premier == null){
+            premier = new Noeud();
+            premier.valeur = element;
+            premier.prochain = null;
+        }
+
+        Noeud dernier = premier;
+        while (dernier != null)
+            dernier = dernier.prochain;
+
+        dernier = new Noeud();
+        dernier.valeur = element;
+        dernier.prochain = null;
     }
 
     public boolean ajouter(int element, int index) {
-        if (index < 0 || index > nbElements)
-            //throw new IndexOutOfBoundsException();
-            return false;
-        if (nbElements >= tableau.length)
-            resize();
-        for (int i = nbElements; i > index; i--)
-            tableau[i] = tableau[i - 1];
-        tableau[index] = element;
-        nbElements++;
+
+        if (premier == null){
+            premier = new Noeud();
+            premier.valeur = element;
+            premier.prochain = null;
+        }
+
+        Noeud courant = premier;
+        for (int i = 0 ; i <= index ; i++)
+            if (courant != null)
+                courant = courant.prochain;
+            else
+                return false;
+
+        Noeud dernier = premier;
+        while (dernier != null)
+            dernier = dernier.prochain;
+
+
+
+
         return true;
     }
-
+/*
     public void ajouter(Liste autre) {
         for (int i = 0 ; i < autre.getNbElements(); i++)
             this.ajouter(autre.getElementAt(i));
